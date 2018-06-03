@@ -1,3 +1,5 @@
+//This program read arithmetic Operations from input.txt
+//example " a = 2 ; and b = ( 2 * a ) / 2 ; " and calculate the operands with using stack.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -78,6 +80,14 @@ int Prec(char ch){
     return -1;
 }
 
+void printSonuc(char *a,int *b){
+	int l=0;
+	while(isOperand(a[l])){
+		printf("%c <- %d, ",a[l],b[l]);
+		l++;
+	}
+}
+
 // The main function that converts given infix expression
 // to postfix expression. 
 int infixToPostfix(char* exp){
@@ -93,12 +103,12 @@ int infixToPostfix(char* exp){
         if (isOperand(exp[i]))
             exp[++k] = exp[i];
         
-        // If the scanned character is an ‘(‘, push it to the stack.
+        // If the scanned character is an â€˜(â€˜, push it to the stack.
         else if (exp[i] == '(')
             push(stack, exp[i]);
         
-        // If the scanned character is an ‘)’, pop and output from the stack 
-        // until an ‘(‘ is encountered.
+        // If the scanned character is an â€˜)â€™, pop and output from the stack 
+        // until an â€˜(â€˜ is encountered.
         else if (exp[i] == ')'){
             while (!isEmpty(stack) && peek(stack) != '(')
                 exp[++k] = pop(stack);
@@ -171,7 +181,7 @@ int evaluatePostfix(char* exp,char* a,int* b){
 int main(){
     char exp[50];
     char a[50],str[50],*token;
-    int  b[50],i,j=0,k=2,in,ci,l;
+    int  b[50],i,j=0,k=2,in,ci;
     
 	for(j=0;j<50;j++){
     	a[j]=NULL;
@@ -211,22 +221,14 @@ int main(){
       exp[k-1]=exp[k-2]=NULL;
       infixToPostfix(exp);
       printf("  ve  ");
-		
-	l=0; while(isOperand(a[l])){
-			printf("%c <- %d, ",a[l],b[l]);
-			l++;
-		 }
+	  printSonuc(a,b);
       printf("icin;");
       b[j]=evaluatePostfix(exp,a,b);
       printf("\n%c <- %d\n\n",a[j], b[j]);
     }
     
     printf("TOPLAM SONUC\n");
-    l=0;
-    while(isOperand(a[l])){
-       printf("%c <- %d   ",a[l],b[l]);
-	   l++;
-    }
+    printSonuc(a,b);
     fclose(fd);
     return 0;
 }
