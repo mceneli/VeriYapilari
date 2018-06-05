@@ -51,7 +51,7 @@ void printStack(struct Stack* stack){
 
 void printStackInt(struct Stack* stack){
 	int i;
-	printf("Yigin:\t");
+	printf("Stack:\t");
 	for(i=0;i<=stack->top;i++){
 		printf("%d ",stack->array[i]);
 	}
@@ -80,7 +80,7 @@ int Prec(char ch){
     return -1;
 }
 
-void printSonuc(char *a,int *b){
+void printResult(char *a,int *b){
 	int l=0;
 	while(isOperand(a[l])){
 		printf("%c <- %d, ",a[l],b[l]);
@@ -121,7 +121,7 @@ int infixToPostfix(char* exp){
                 exp[++k] = pop(stack);
             push(stack, exp[i]);
         }
-        printf("    \nAra Cikis: ");
+        printf("    \nOutput: ");
 		for(j=0;j<=k;j++){
     	printf("%c",exp[j]);
 		}
@@ -135,7 +135,7 @@ int infixToPostfix(char* exp){
         exp[++k] = pop(stack );
 
     exp[++k] = '\0';
-    printf("\nCikis: %s",exp);
+    printf("\nOutput: %s",exp);
 }
 
 // The main function that returns value of a given postfix expression
@@ -189,7 +189,7 @@ int main(){
     	
 	FILE *fd=fopen("input.txt","r");
     if(fd==NULL){
-		printf("dosya acilamadi");
+		printf("File does not exist");
 		exit(0);
 	}
     
@@ -197,7 +197,7 @@ int main(){
 	fgets(str, 50, fd);
 	token = strtok(str, ";");
     strcpy(exp,token);
-    printf("\nOkunan Deger: %s ;",token);
+    printf("\nRead value: %s ;",token);
     
 	in=0; while(exp[in]){
 		if(exp[in]==' '){
@@ -220,15 +220,15 @@ int main(){
        }
       exp[k-1]=exp[k-2]=NULL;
       infixToPostfix(exp);
-      printf("  ve  ");
-	  printSonuc(a,b);
-      printf("icin;");
+      printf(" and for ");
+	  printResult(a,b);
+      printf(" ;");
       b[j]=evaluatePostfix(exp,a,b);
       printf("\n%c <- %d\n\n",a[j], b[j]);
     }
     
-    printf("TOPLAM SONUC\n");
-    printSonuc(a,b);
+    printf("FINAL RESULT\n");
+    printResult(a,b);
     fclose(fd);
     return 0;
 }
